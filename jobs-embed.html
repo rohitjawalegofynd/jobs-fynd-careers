@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter"
+      rel="stylesheet"
+    />
+    <script
+      type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+    ></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
+      integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/simplePagination.min.css"
+      integrity="sha512-85KEMf8eFSgiFrs/gGSVg0S6JqrmCtvVcA+s1PTMl/qtqH0ucmhrYrAFXock7iSjCaVcCMUNgCEF+sdQBUp7pA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Static Template</title>
+    <style>
+      body {
+        font-family: "inter";
+
+        color: #454545;
+      }
+      * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      section-job {
+        position: relative;
+      }
+      .jobs-list :hover {
+        border-color: #e8178a;
+        cursor: pointer;
+      }
+      .job-title {
+        font-size: 24px;
+        text-decoration: none;
+        color: #41434c;
+        font-weight: 700;
+      }
+      .tags span {
+        color: #999;
+        font-size: 12px;
+        color: grayMediumDark;
+      }
+      .tags span:after {
+        content: ", ";
+      }
+      .tags span:last-of-type:after {
+        content: "";
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 7px 15px;
+        text-decoration: none;
+        font-weight: normal;
+        color: #999;
+        border: 2px solid #ebebeb;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        background: #f9f9f9;
+      }
+
+      .btn-apply {
+        display: flex;
+        justify-content: center;
+        text-decoration: none;
+        padding: 0px 24px;
+        align-items: center;
+        border-color: #e8178a;
+        background-color: #e8178a;
+        text-align: center;
+        border-radius: 6px;
+        color: white;
+        line-height: 19px;
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .apply-row {
+        display: flex;
+        height: 48px;
+      }
+
+      .container-job {
+        margin: 0 auto;
+      }
+      .lever-loc,
+      .lever-team,
+      .lever-work-type {
+        flex-wrap: wrap;
+        justify-items: flex-start;
+        align-items: flex-start;
+        padding: 0 15px 15px 0;
+      }
+      .lever-loc,
+      .lever-team {
+        margin-top: 20px;
+        height: 200px;
+      }
+      .lever-work-type {
+        margin-top: 30px;
+      }
+      .filter-options-loc,
+      .filter-options-team,
+      .filter-options-work-type {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 160px;
+      }
+      .noData {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 24px;
+        margin-top: 3vh;
+        height: 251px;
+        background: #ffffff;
+        border: 1px solid #d7d7d7;
+        border-radius: 12px;
+      }
+      .search-icon {
+        margin-right: 8px;
+      }
+      .search-input-wrapper {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        padding: 0.2rem 0.4rem 0.2rem 0.8rem;
+      }
+      .mobileView {
+        width: 100%;
+        border: 1px solid #828282;
+        border-radius: 6px;
+      }
+      .search-icon img {
+        margin-top: 5px;
+      }
+
+      @media screen and (max-width: 480px) {
+        body {
+          position: relative;
+        }
+        .jobs-list-wrapper {
+          width: 95% !important;
+        }
+        div#pagination-container {
+          margin: 2rem auto !important;
+        }
+        .light-theme a {
+          margin-top: 10px;
+        }
+        .light-theme .current {
+          margin-top: 10px;
+        }
+        .ui-dialog {
+          box-shadow: 0 10px 10px 0 rgba(163, 163, 163, 0.25);
+        }
+        button.ui-button.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close {
+          visibility: hidden;
+        }
+        button.ui-button.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close:after {
+          position: absolute;
+          right: 5px;
+          top: 35px;
+          font-size: 22px;
+          content: "\2715";
+          font-weight: bold;
+          visibility: visible;
+          color: #828282;
+          width: 2rem;
+          height: 2rem;
+          padding-top: 2px;
+        }
+        .ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.no-close.ui-draggable.ui-resizable {
+          overflow: hidden;
+          width: 97% !important;
+          margin: auto;
+          left: 0 !important;
+          position: absolute !important;
+          top: 55px !important;
+          right: 0 !important;
+        }
+        .search-option {
+          width: 50%;
+          display: inline-flex !important;
+          word-break: break-word;
+          margin-top: 0.4rem;
+          line-height: 1.6;
+          font-size: 14px;
+          font-weight: 400;
+          align-items: center;
+        }
+        .menu-icon-wrapper {
+          width: 44%;
+          margin: auto;
+          height: auto;
+          padding-top: 0.4rem;
+        }
+
+        p {
+          margin: 0;
+        }
+        .jobs-list {
+          display: grid;
+          grid-row-gap: 16px;
+        }
+
+        .job {
+          display: flex;
+          justify-content: space-between;
+          vertical-align: top;
+          padding: 20px;
+          border: 1px solid #e0e0e0;
+          border-radius: 10px;
+          width: 95vw;
+        }
+        .apply-row {
+          /* display: flex; */
+          justify-content: flex-end;
+          width: 61vw;
+          margin: auto;
+        }
+        .job-title {
+          font-size: 18px;
+        }
+        .lever-loc,
+        .lever-team,
+        .lever-work-type,
+        .lever-filter,
+        .mobView {
+          display: none;
+        }
+        .filterTitle {
+          font-size: 14px;
+          margin: 4% 4%;
+        }
+        .filter-title {
+          padding-right: 2%;
+          font-size: 14px !important;
+          white-space: nowrap;
+        }
+
+        .tags-wrapper {
+          display: contents;
+        }
+        div#chiptag {
+          display: none !important;
+        }
+        .chip {
+          max-width: 90%;
+          white-space: nowrap;
+        }
+        .mobile-filter {
+          height: 2.4rem;
+          width: 15%;
+          border: 1px solid #828282;
+          border-radius: 5px;
+          display: block !important;
+        }
+        .mobileView {
+          width: 80% !important;
+          margin-right: 1.4rem;
+        }
+        #wrapper {
+          background: #ffffff;
+          border: 1px solid #d7d7d7;
+          box-shadow: 0px 14px 29px 10px rgba(163, 163, 163, 0.25);
+          border-radius: 12px;
+          max-height: 100% !important;
+          height: 70% !important;
+        }
+        ul {
+          list-style: none;
+          padding: 0;
+          margin-top: 2.5rem;
+        }
+
+        ul .inner {
+          padding: 1em;
+          padding-left: 0;
+          overflow: auto !important;
+          max-height: 200px;
+          display: none;
+        }
+
+        li.location-accordion,
+        li.team-accordion,
+        li.work-type-accordion {
+          margin: 1.5em 0;
+          font-size: 16px;
+          font-weight: 600;
+          color: #333333;
+          padding-left: 1em;
+          position: relative;
+        }
+
+        ul li a.toggle {
+          border-radius: 0.15em;
+          transition: background 0.3s ease;
+          position: absolute;
+          top: 0;
+          right: 12%;
+          margin: 0 !important;
+        }
+
+        ul li a.toggle:focus {
+          outline: 0;
+          border: none;
+        }
+        a {
+          text-decoration: none;
+          color: #333333;
+          font-size: 16px;
+        }
+        .inner {
+          font-size: 14px;
+          overflow-x: scroll !important;
+        }
+        .filterTag-wrapper::-webkit-scrollbar {
+          display: none;
+        }
+        .filterTag-wrapper {
+          overflow: auto;
+          width: 95% !important;
+          min-height: 0 !important;
+          padding: 0 !important;
+          scrollbar-width: none;
+        }
+
+        .filterTitle div span {
+          color: #e35889;
+        }
+        .search-option input:checked {
+          accent-color: #e8178a;
+        }
+        .search-option input[type="checkbox"] {
+          margin-right: 12px;
+          min-height: 18px;
+          min-width: 18px;
+        }
+        div#filter {
+          margin-top: 5%;
+        }
+        .clear-filter {
+          color: #828282;
+          font-size: 14px;
+          margin: 1vw 0 0 20vw;
+        }
+        .clearAll {
+          margin: 15px 0 20px 0;
+        }
+        .checkbox-label {
+          margin-left: 5px !important;
+          margin-bottom: 0 !important;
+          line-height: 16px;
+        }
+        .search-container {
+          display: flex;
+          width: 95%;
+          margin: auto;
+        }
+        .search-input {
+          color: #828282;
+          width: 100%;
+          font-size: 16px;
+          border: none;
+        }
+        .clear-div {
+          display: flex;
+          justify-content: space-between;
+          width: 95%;
+        }
+        .desc {
+          width: inherit;
+        }
+        .loc_overlay {
+          display: none;
+        }
+        .team_overlay {
+          display: none;
+        }
+        .loc_overlay_mobile {
+          position: absolute;
+          height: 40px;
+          width: 96%;
+          top: 62%;
+          background-image: linear-gradient(#ffffff63, #fff, #fff);
+          opacity: 0.8;
+        }
+        .team_overlay_mobile {
+          position: absolute;
+          height: 47px;
+          width: 96%;
+          top: 73%;
+          background-image: linear-gradient(#ffffff63, #fff, #fff);
+          opacity: 0.8;
+        }
+        .location-header,
+        .team-header {
+          padding-bottom: 10px;
+        }
+      }
+
+      @media screen and (min-width: 481px) {
+        .menu-icon-wrapper,
+        .menuIcon {
+          display: none;
+        }
+        p {
+          margin: 0 0 1em 0;
+        }
+        #mobile {
+          display: none;
+        }
+
+        .filterTitle {
+          padding: 15px 0;
+          font-size: 14px;
+        }
+
+        .filterTitle span {
+          color: #e8178a;
+        }
+
+        .job {
+          display: inline-block;
+          vertical-align: top;
+          display: flex;
+          justify-content: space-between;
+          padding: 20px;
+          max-height: 120px;
+          border: 1px solid #e0e0e0;
+          border-radius: 10px;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        .couple {
+          display: flex;
+        }
+        .desc {
+          max-width: 75%;
+        }
+        .search-show {
+          width: 100%;
+          white-space: nowrap;
+        }
+
+        #filter {
+          font-size: 16px;
+          line-height: 24px;
+          height: 100%;
+          /* padding-left: 2%; */
+          color: #333333;
+          width: 20%;
+          padding-top: 4vh;
+          position: sticky;
+          top: 0;
+        }
+
+        .clear-filter {
+          color: #828282;
+          cursor: pointer;
+          font-size: 16px;
+        }
+        .line {
+          width: 100%;
+          height: 1px;
+          background: #828282;
+          margin: 5% 0;
+          opacity: 0.2;
+        }
+        .list-wrapper {
+          width: 82% !important;
+        }
+        /* .filterTag-wrapper {
+          padding-top: 1vh !important;
+        } */
+        .tags-wrapper {
+          padding-top: 1% !important;
+        }
+        .loc_overlay {
+          position: absolute;
+          height: 40px;
+          width: 93%;
+          top: 43%;
+          background-image: linear-gradient(#ffffff63, #fff, #fff);
+          opacity: 0.8;
+        }
+        .team_overlay {
+          position: absolute;
+          height: 40px;
+          width: 93%;
+          top: 68%;
+          background-image: linear-gradient(#ffffff63, #fff, #fff);
+          opacity: 0.8;
+        }
+      }
+
+      ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+        background-color: #f3f3f3;
+      }
+      ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+        background-color: #f3f3f3;
+      }
+      ::-webkit-scrollbar-thumb {
+        border-radius: 2.5px;
+        background-color: #9b9b9b;
+      }
+
+      .chip {
+        font-size: 15px;
+        font-weight: bold;
+        display: inline-flex;
+        padding: 0.7rem;
+        border-radius: 8px;
+        margin-left: 1%;
+        margin-bottom: 1%;
+        color: #fff;
+        background-color: #e8178a;
+      }
+      .closebtn {
+        padding-left: 10px;
+      }
+      .list-wrapper {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .jobs-list {
+        justify-content: center;
+        width: 100%;
+        margin-top: 2vh;
+      }
+      .jobs-list-wrapper {
+        width: 90%;
+        margin: 0 auto;
+      }
+      .chips {
+        color: #828282;
+        display: none;
+        margin-left: 5%;
+        font-size: 16px;
+      }
+      .search-input {
+        color: #333;
+        width: 100%;
+        font-size: 14px;
+        border: none;
+      }
+      .location-checkbox-wrapper,
+      .lever-work-type-wrapper,
+      .lever-team-wrapper {
+        font-weight: bold;
+        margin-bottom: 7%;
+      }
+      .lever-loc input,
+      .lever-team input,
+      .lever-work-type input {
+        width: 16px;
+        height: 16px;
+        border-radius: 10px;
+        margin-right: 3%;
+        margin-bottom: 6%;
+      }
+      .lever-loc input[type="checkbox"]:checked,
+      .lever-team input[type="checkbox"]:checked,
+      .lever-work-type input[type="checkbox"]:checked {
+        accent-color: #e8178a;
+      }
+      #filters {
+        font-size: 24px;
+      }
+      .filterTag-wrapper {
+        display: flex;
+        width: 90%;
+        margin: auto;
+        padding-top: 3vh;
+        position: sticky;
+        top: 0;
+        background: white;
+        min-height: 7vh;
+        align-items: center;
+      }
+      .filter-title {
+        font-size: 16px;
+        color: #828282;
+      }
+      .tags-wrapper {
+        width: 87%;
+      }
+      .location-title,
+      .team-title,
+      .work-type-title {
+        font-size: 18px;
+      }
+      .checkbox-label {
+        margin-left: 9px;
+        margin-bottom: 10px;
+      }
+      .search-option {
+        display: flex;
+      }
+      input.search-input:focus {
+        outline: none;
+      }
+      span.current {
+        background: #393b7a !important;
+        padding: 7px 16px;
+        font-weight: 700;
+      }
+      div#pagination-container {
+        margin: 3rem auto 3rem auto;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+      }
+      .light-theme a {
+        background: #fff !important;
+        box-shadow: none;
+        color: #828282;
+        padding: 7px 16px;
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .prev img,
+      .next img {
+        vertical-align: text-bottom;
+      }
+      a.page-link.next,
+      a.page-link.prev {
+        background: #393b7a !important;
+        color: #fff;
+      }
+      .closebtn {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <section-job>
+      <div class="container-job" id="jobs-container-job">
+        <div class="couple">
+          <div id="filter">
+            <div class="search-container">
+              <div class="mobileView">
+                <div class="search-input-wrapper">
+                  <div class="search-icon">
+                    <img
+                      src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/search.svg"
+                    />
+                  </div>
+                  <input
+                    class="search-input"
+                    type="search"
+                    placeholder="Search here"
+                  />
+                </div>
+              </div>
+              <div class="mobile-filter">
+                <div class="menu-icon-wrapper">
+                  <img
+                    src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Filter-embed.svg"
+                  />
+                </div>
+
+                <div id="wrapper" style="height: 400px;">
+                  <ul class="accordion">
+                    <li class="location-accordion">
+                      <div class="location-header" style="display: flex;">
+                        <span style="width: 45%;">Location</span>
+                        <div
+                          class="clear-filter"
+                          onclick="clearCheckboxes('accord-loc', 'all')"
+                        >
+                          Clear
+                        </div>
+                      </div>
+                      <a class="toggle" href="#">
+                        <img
+                          id="svgDown"
+                          class="down-arrow"
+                          src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Arrow-down.svg"
+                        />
+                        <img
+                          id="svgUp"
+                          class="collapse up-arrow"
+                          src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Arrow-up.svg"
+                        />
+                      </a>
+                      <div id="accord-loc" class="inner"></div>
+                    </li>
+                    <div
+                      class="loc_overlay_mobile"
+                      id="mobil_loc_overlay"
+                    ></div>
+
+                    <li class="team-accordion">
+                      <div class="team-header" style="display: flex;">
+                        <span style="width: 45%;">Team</span>
+                        <div
+                          class="clear-filter"
+                          onclick="clearCheckboxes('accord-team', 'all')"
+                        >
+                          Clear
+                        </div>
+                      </div>
+                      <a class="toggle" href="#">
+                        <img
+                          id="svgDown"
+                          class="down-arrow"
+                          src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Arrow-down.svg"
+                        />
+                        <img
+                          id="svgUp"
+                          class="collapse up-arrow"
+                          src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Arrow-up.svg"
+                        />
+                      </a>
+                      <div id="accord-team" class="inner"></div>
+                    </li>
+                    <div
+                      class="team_overlay_mobile"
+                      id="mobil_team_overlay"
+                    ></div>
+
+                    <li class="work-type-accordion">
+                      <div class="work-header" style="display: flex;">
+                        <span style="width: 45%;">Work Type</span>
+                        <div
+                          class="clear-filter"
+                          onclick="clearCheckboxes('accord-work-type', 'all')"
+                        >
+                          Clear
+                        </div>
+                      </div>
+                      <a class="toggle" href="#">
+                        <img
+                          id="svgDown"
+                          class="down-arrow"
+                          src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Arrow-down.svg"
+                        />
+                        <img
+                          id="svgUp"
+                          class="collapse up-arrow"
+                          src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Arrow-up.svg"
+                        />
+                      </a>
+                      <div id="accord-work-type" class="inner"></div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- </div> -->
+            </div>
+            <div class="clear-div">
+              <div class="filterTitle"></div>
+              <div id="mobile" class="clear-filter clearAll">
+                Clear All
+              </div>
+            </div>
+            <div id="filters" class="lever-filter">
+              <div style="display: flex; justify-content: space-between;">
+                <div
+                  class="mobView"
+                  style="font-weight: bold; margin-bottom: 10px;"
+                >
+                  Filters
+                </div>
+                <div class="clear-filter clearAll">
+                  Clear All
+                </div>
+              </div>
+            </div>
+            <div class="line"></div>
+            <div id="location" class="lever-loc">
+              <div style="display: flex; justify-content: space-between;">
+                <div
+                  class="location-title"
+                  style="font-weight: bold; margin-bottom: 10px;"
+                >
+                  Location
+                </div>
+                <div
+                  class="clear-filter"
+                  onclick="clearCheckboxes('location', 'all')"
+                >
+                  Clear
+                </div>
+              </div>
+              <div class="filter-options-loc"></div>
+            </div>
+            <div class="loc_overlay"></div>
+            <div class="line"></div>
+            <div id="team" class="lever-team">
+              <div style="display: flex; justify-content: space-between;">
+                <div
+                  class="team-title"
+                  style="font-weight: bold; margin-bottom: 10px;"
+                >
+                  Team
+                </div>
+                <div
+                  class="clear-filter"
+                  onclick="clearCheckboxes('team', 'all')"
+                >
+                  Clear
+                </div>
+              </div>
+              <div class="filter-options-team"></div>
+            </div>
+            <div class="team_overlay"></div>
+            <div class="line"></div>
+            <div id="work-type" class="lever-work-type">
+              <div style="display: flex; justify-content: space-between;">
+                <div
+                  class="work-type-title"
+                  style="font-weight: bold; margin-bottom: 10px;"
+                >
+                  Work Type
+                </div>
+                <div
+                  class="clear-filter"
+                  onclick="clearCheckboxes('work-type', 'all')"
+                >
+                  Clear
+                </div>
+              </div>
+              <div class="filter-options-work-type"></div>
+            </div>
+          </div>
+          <div class="list-wrapper">
+            <div class="filterTag-wrapper">
+              <div class="filter-title">Filtering by</div>
+              <div class="tags-wrapper">
+                <div id="chiptag" class="chips"></div>
+              </div>
+            </div>
+            <div class="jobs-list-wrapper">
+              <div class="jobs-list"></div>
+              <div id="empty" class="noData" style="display: none;">
+                <!-- <svg
+                  width="70"
+                  height="59"
+                  viewBox="0 0 70 59"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M32.928 58.0019C32.9273 58.0019 32.9283 58.0019 32.9276 58.0019C23.981 58.0019 16.4537 57.5821 10.589 57.0677C6.97387 56.7506 4.71035 53.0081 6.09628 49.6542C9.9406 40.3507 14.6869 31.1602 20.2549 22.2468C24.0449 16.1795 27.7037 11.0656 30.7976 7.042C32.9553 4.23591 37.1766 4.2351 39.3345 7.04106C42.4131 11.0445 46.0523 16.1295 49.8234 22.1595C55.363 31.0169 60.0915 40.1496 63.9295 49.3959C65.3229 52.7528 63.0507 56.5007 59.43 56.8189C50.4894 57.6047 41.6043 58.0019 32.928 58.0019V58.0019Z"
+                    fill="#D7D7D7"
+                  />
+                  <path
+                    d="M36.3303 5.08688C35.2804 5.36288 34.2977 6.02121 33.5711 7.06039C30.7328 11.1195 27.3767 16.2793 23.9003 22.4005C18.7924 31.393 14.4383 40.665 10.9124 50.0502C9.75988 53.1161 11.3571 56.504 14.1352 57.351C12.893 57.2614 11.711 57.1658 10.5891 57.0679C6.97347 56.7505 4.71089 53.0087 6.09587 49.6537C9.94033 40.3513 14.6873 31.1607 20.2553 22.2471C24.0454 16.1803 27.7037 11.0652 30.7979 7.04274C32.1637 5.26612 34.358 4.61386 36.3303 5.08688V5.08688Z"
+                    fill="#828282"
+                  />
+                  <path
+                    d="M60.0446 31.6645V31.2745C60.0446 29.8988 61.1098 28.758 62.4824 28.6638L66.7042 28.3742C68.2164 28.2704 69.5 29.4692 69.5 30.9849V31.9541C69.5 33.4698 68.2162 34.6685 66.7042 34.5648L62.4824 34.2752C61.1099 34.1811 60.0446 33.0403 60.0446 31.6645Z"
+                    fill="#D7D7D7"
+                  />
+                  <path
+                    d="M56.7868 19.1161L56.5917 18.7783C55.9039 17.5868 56.256 16.0662 57.3975 15.2985L60.9088 12.9368C62.1666 12.0909 63.8776 12.4871 64.6355 13.7997L65.1201 14.6392C65.878 15.9518 65.3655 17.6318 64.0041 18.2981L60.2032 20.1581C58.9675 20.763 57.4746 20.3076 56.7868 19.1161Z"
+                    fill="#D7D7D7"
+                  />
+                  <path
+                    d="M47.6911 9.87784L47.3533 9.68283C46.1618 8.99499 45.7066 7.50206 46.3113 6.26639L48.1713 2.46546C48.8376 1.10406 50.5176 0.591679 51.8302 1.34947L52.6697 1.83408C53.9823 2.59201 54.3785 4.30299 53.5326 5.56076L51.1709 9.07208C50.4032 10.2135 48.8826 10.5657 47.6911 9.87784V9.87784Z"
+                    fill="#D7D7D7"
+                  />
+                  <path
+                    d="M9.95543 31.6645V31.2745C9.95543 29.8988 8.89024 28.758 7.51765 28.6638L3.29585 28.3742C1.78378 28.2704 0.5 29.4692 0.5 30.9849V31.9541C0.5 33.4698 1.78378 34.6685 3.29585 34.5648L7.51765 34.2752C8.8901 34.1811 9.95543 33.0403 9.95543 31.6645Z"
+                    fill="#D7D7D7"
+                  />
+                  <path
+                    d="M13.2132 19.1161L13.4083 18.7783C14.0961 17.5868 13.744 16.0662 12.6025 15.2985L9.09117 12.9368C7.83341 12.0909 6.12242 12.4871 5.3645 13.7997L4.87988 14.6392C4.12196 15.9518 4.63448 17.6318 5.99588 18.2981L9.79681 20.1581C11.0325 20.763 12.5254 20.3076 13.2132 19.1161Z"
+                    fill="#D7D7D7"
+                  />
+                  <path
+                    d="M22.3089 9.87784L22.6467 9.68283C23.8382 8.99499 24.2934 7.50206 23.6887 6.26639L21.8287 2.46546C21.1624 1.10406 19.4824 0.591679 18.1698 1.34947L17.3303 1.83408C16.0177 2.59201 15.6215 4.30299 16.4674 5.56076L18.8291 9.07208C19.5968 10.2135 21.1174 10.5657 22.3089 9.87784Z"
+                    fill="#D7D7D7"
+                  />
+                  <path
+                    d="M33.5042 19.2741C34.5109 19.1729 35.5176 19.1729 36.5243 19.2741C37.798 19.4023 38.773 20.466 38.8201 21.7452C38.9736 25.9295 38.9736 30.1139 38.8201 34.2982C38.7732 35.5774 37.798 36.6413 36.5243 36.7693C35.5176 36.8705 34.5109 36.8705 33.5042 36.7693C32.2306 36.6411 31.2555 35.5774 31.2085 34.2982C31.055 30.1139 31.055 25.9295 31.2085 21.7452C31.2555 20.4659 32.2306 19.4022 33.5042 19.2741V19.2741Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M33.5773 41.3615C34.5353 41.3157 35.4934 41.3157 36.4514 41.3615C37.7717 41.4247 38.8321 42.4875 38.8916 43.8079C38.9497 45.0952 38.9497 46.3825 38.8916 47.6699C38.8321 48.9903 37.7717 50.0531 36.4514 50.1163C35.4934 50.1621 34.5353 50.1621 33.5773 50.1163C32.257 50.0531 31.1967 48.9903 31.1371 47.6699C31.079 46.3826 31.079 45.0953 31.1371 43.8079C31.1967 42.4875 32.257 41.4247 33.5773 41.3615V41.3615Z"
+                    fill="white"
+                  />
+                </svg> -->
+                <img
+                  src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Alert-embed.svg"
+                />
+                No results found
+              </div>
+            </div>
+            <div id="pagination-container"></div>
+          </div>
+        </div>
+      </div>
+    </section-job>
+
+    <script>
+      // Replace "leverdemo" with your own company name
+      url = "https://api.lever.co/v0/postings/fynd?group=team&mode=json";
+
+      //Checking for potential Lever source or origin parameters
+      var pageUrl = window.location.href;
+      var leverParameter = "";
+      var trackingPrefix = "?lever-";
+
+      var jobData;
+      var locations = [];
+      var teams = [];
+      var commitments = [];
+      var posting;
+      var searchValue = "";
+      var searchEle = document.querySelector(".search-input");
+      var clearAll = document.querySelectorAll(".clearAll");
+      var postingLength = 0;
+      var rawData;
+      var allVals = [];
+
+      //onClick dialog will open for mobile devices
+      $(".menu-icon-wrapper").click(function () {
+        $("#mobil_team_overlay").hide();
+
+        $("#wrapper").dialog("open");
+        $("li .inner").removeClass("show");
+        $("li .inner").slideUp(350);
+        $(".down-arrow").show();
+        $(".up-arrow").hide();
+        $("#accord-loc").toggleClass("show");
+        $("#accord-loc").slideToggle(350);
+        $(".location-accordion .down-arrow").hide();
+        $(".location-accordion .up-arrow").show();
+      });
+
+      //overlay
+
+      function blurOverlay(location_ele, overlay_ele) {
+        location_ele.addEventListener("scroll", function (event) {
+          var element = event.target;
+          if (
+            element.scrollHeight - element.scrollTop ===
+            element.clientHeight
+          ) {
+            overlay_ele.style.display = "none";
+          } else {
+            overlay_ele.style.display = "block";
+          }
+        });
+      }
+      var loc_scrollbar = document.querySelector(".filter-options-loc");
+      var loc_overlay_style = document.querySelector(".loc_overlay");
+
+      var team_scrollbar = document.querySelector(".filter-options-team");
+      var team_overlay_style = document.querySelector(".team_overlay");
+      if (window.innerWidth > 480) {
+        blurOverlay(team_scrollbar, team_overlay_style);
+        blurOverlay(loc_scrollbar, loc_overlay_style);
+      }
+
+      function blurOverlayMob(location_ele, overlay_ele, isToggle = false) {
+        if (!isToggle) {
+          location_ele.addEventListener("scroll", function (event) {
+            var element = event.target;
+            if (
+              element.scrollHeight - Math.ceil(element.scrollTop) <=
+              element.clientHeight
+            ) {
+              overlay_ele.style.display = "none";
+              if ($("#accord-loc").hasClass("show")) {
+                $("#mobil_team_overlay").hide();
+              }
+            } else {
+              overlay_ele.style.display = "block";
+              if ($("#accord-loc").hasClass("show")) {
+                $("#mobil_team_overlay").hide();
+              }
+            }
+          });
+        } else {
+          if (!$("#accord-loc").hasClass("show")) {
+            $("#mobil_team_overlay").show();
+          }
+
+          location_ele.addEventListener("scroll", function (event) {
+            var element = event.target;
+            if (
+              element.scrollHeight - Math.ceil(element.scrollTop) <=
+              element.clientHeight
+            ) {
+              overlay_ele.style.display = "none";
+              if ($("#accord-loc").hasClass("show")) {
+                $("#mobil_team_overlay").hide();
+              }
+            } else {
+              overlay_ele.style.display = "block";
+              if ($("#accord-loc").hasClass("show")) {
+                $("#mobil_team_overlay").hide();
+              }
+            }
+          });
+        }
+      }
+
+      var accordloc = document.querySelector("#accord-loc");
+      var loc_overlay_mobile = document.querySelector(".loc_overlay_mobile");
+      var arrowUpBtn = document.querySelector(
+        ".location-accordion .toggle #svgUp"
+      );
+      if (window.innerWidth < 768) {
+        // console.log("mobile");
+        blurOverlayMob(accordloc, loc_overlay_mobile);
+      }
+
+      var accordteam = document.querySelector("#accord-team");
+      var team_overlay_mobile = document.querySelector(".team_overlay_mobile");
+
+      var teamArrowUpBtn = document.querySelector(
+        ".team-accordion .toggle #svgUp"
+      );
+
+      $("#wrapper").dialog({
+        height: 300,
+        width: 300,
+        modal: true,
+        autoOpen: false,
+        dialogClass: "no-close"
+      });
+
+      var toggle_count = 0;
+
+      var teamOverlay = document.querySelector("#mobil_team_overlay");
+      $("#mobil_team_overlay").hide();
+
+      $(".toggle").click(function (e) {
+        e.preventDefault();
+
+        toggle_count++;
+        let $this = $(this);
+        if (toggle_count && toggle_count % 2 == 0) {
+          $this.find("#svgUp").hide();
+          $this.find("#svgDown").show();
+        } else if (toggle_count && !(toggle_count % 2 == 0)) {
+          $this.find("#svgUp").show();
+          $this.find("#svgDown").hide();
+        }
+
+        if ($this.next().hasClass("show")) {
+          $("#mobil_loc_overlay").show();
+          $("#mobil_team_overlay").hide();
+          console.log("yes");
+
+          $this.next().removeClass("show");
+          $this.next().slideUp(350);
+          $this.find("#svgUp").hide();
+          $this.find("#svgDown").show();
+        } else {
+          $("#mobil_team_overlay").hide();
+          $this.find("#svgUp").show();
+          $this.find("#svgDown").hide();
+
+          if (!$("#accord-loc").hasClass("show")) {
+            teamOverlay.style.display = "none";
+          }
+
+          $this.parent().parent().find("li .inner").removeClass("show");
+          $this.parent().parent().find("li .inner").slideUp(350);
+          $this.next().toggleClass("show");
+          $this.next().slideToggle(350);
+
+          $this.parent().parent().find("#svgUp").hide();
+          $this.parent().parent().find("#svgDown").show();
+          $this.find("#svgUp").show();
+          $this.find("#svgDown").hide();
+        }
+        if (window.innerWidth < 481) {
+          blurOverlayMob(accordteam, team_overlay_mobile, true);
+        }
+      });
+
+      if (pageUrl.indexOf(trackingPrefix) >= 0) {
+        // Found Lever parameter
+        var pageUrlSplit = pageUrl.split(trackingPrefix);
+        leverParameter = "?lever-" + pageUrlSplit[1];
+      }
+
+      //Functions for checking if the variable is unspecified
+      function cleanString(string) {
+        if (string) {
+          var cleanString = string.replace(/\s+/gi, "");
+          return cleanString;
+        } else {
+          return "Uncategorized";
+        }
+      }
+
+      function nullCheck(string) {
+        if (!string) {
+          var result = "Uncategorized";
+          return result;
+        } else {
+          return string;
+        }
+      }
+      //function to create jobs and appending jobs data in UI
+      function createJobs(_data, searchValue = "", initialLoad) {
+        $(".jobs-list").empty();
+
+        $(".job").replaceWith("");
+
+        for (i = 0; i < _data.length; i++) {
+          for (j = 0; j < _data[i].postings.length; j++) {
+            var posting = _data[i].postings[j];
+            var title = posting.text;
+            var location = nullCheck(posting.categories.location);
+            var locationCleanString = cleanString(location);
+            var commitment = nullCheck(posting.categories.commitment);
+            var commitmentCleanString = cleanString(commitment);
+            var team = nullCheck(posting.categories.team);
+            var teamCleanString = cleanString(team);
+            var link = posting.hostedUrl + leverParameter;
+            initialLoad && postingLength++;
+            if (
+              title
+                .replace(/[^a-zA-Z ]/g, "")
+                .toLowerCase()
+                .includes(
+                  searchValue.replace(/[^a-zA-Z ]/g, "").toLowerCase()
+                ) ||
+              location
+                .replace(/[^a-zA-Z ]/g, "")
+                .toLowerCase()
+                .includes(
+                  searchValue.replace(/[^a-zA-Z ]/g, "").toLowerCase()
+                ) ||
+              team
+                .replace(/[^a-zA-Z ]/g, "")
+                .toLowerCase()
+                .includes(
+                  searchValue.replace(/[^a-zA-Z ]/g, "").toLowerCase()
+                ) ||
+              commitment
+                .replace(/[^a-zA-Z ]/g, "")
+                .toLowerCase()
+                .includes(searchValue.replace(/[^a-zA-Z ]/g, "").toLowerCase())
+            ) {
+              $("#jobs-container-job .jobs-list").append(
+                '<div class="job' +
+                  '">' +
+                  '<div class="desc">' +
+                  '<a class="job-title" href="' +
+                  link +
+                  '"">' +
+                  title +
+                  "</a>" +
+                  '<p class="tags"><span>' +
+                  team +
+                  "</span><span>" +
+                  location +
+                  "</span><span>" +
+                  commitment +
+                  "</div>" +
+                  '<div class="apply-row"><div class="app"></div><a class="btn-apply" href="' +
+                  link +
+                  '" target="_blank">Apply now</a></div>' +
+                  "</div>"
+              );
+            } else if (searchValue == "") {
+              $("#jobs-container-job .jobs-list").append(
+                '<div class="job' +
+                  '">' +
+                  '<div class="desc">' +
+                  '<a class="job-title" href="' +
+                  link +
+                  '"">' +
+                  title +
+                  "</a>" +
+                  '<p class="tags"><span>' +
+                  team +
+                  "</span><span>" +
+                  location +
+                  "</span><span>" +
+                  commitment +
+                  "</div>" +
+                  '<div class="apply-row"><div class="app"></div><a class="btn-apply" href="' +
+                  link +
+                  '" target="_blank">Apply now</a></div>' +
+                  "</div>"
+              );
+            }
+          }
+        }
+        if ($(".jobs-list").children().length === 0) {
+          $("#empty").show();
+        } else {
+          $("#empty").hide();
+        }
+        totalPostings();
+        var job_items = $(".jobs-list .job");
+        var numItems = job_items.length;
+        // console.log("nums", job_items.length);
+        var perPage = 10;
+
+        var prev;
+        var next;
+        if (window.innerWidth > 480) {
+          prev =
+            '<img src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Previous-arrow.svg" /> Previous';
+          next =
+            'Next <img src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Next-arrow.svg" />';
+        } else {
+          prev =
+            '<img src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Previous-arrow.svg" />';
+          next =
+            '<img src="https://cdn.pixelbin.io/v2/fynd-marketplace/original/images/Next-arrow.svg" />';
+        }
+        job_items.slice(perPage).hide();
+
+        $("#pagination-container").pagination({
+          items: numItems,
+          itemsOnPage: perPage,
+          prevText: prev,
+          displayedPages: 1,
+          edges: 1,
+          nextText: next,
+          onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            job_items.hide().slice(showFrom, showTo).show();
+          }
+        });
+        var no_items = document.querySelector("#empty");
+        var pagination_container = document.querySelector(
+          "#pagination-container"
+        );
+        // console.log("num", numItems);
+
+        if (no_items.style.display == "block") {
+          pagination_container.style.display = "none";
+        } else {
+          pagination_container.style.display = "flex";
+        }
+        if (numItems < 11) {
+          pagination_container.style.display = "none";
+        }
+      }
+
+      function createFilter(_data) {
+        posting = _data;
+        for (i = 0; i < _data.length; i++) {
+          for (j = 0; j < _data[i].postings.length; j++) {
+            var item = {};
+            item = _data[i].postings[j].categories;
+
+            var location = item.location;
+            if (jQuery.inArray(location, locations) == -1) {
+              locations.push(location);
+            }
+
+            var team = item.team;
+            if (jQuery.inArray(team, teams) == -1) {
+              teams.push(team);
+            }
+
+            var commitment = item.commitment;
+            if (jQuery.inArray(commitment, commitments) == -1) {
+              commitments.push(commitment);
+            }
+          }
+        }
+        locations.sort();
+        teams.sort();
+        commitments.sort();
+      }
+
+      //function to show length of displayed jobs and total jobs
+      function totalPostings() {
+        $(".filterTitle").empty();
+
+        var filterLength = $(".jobs-list").children().length;
+
+        $(".filterTitle").append(
+          "<div>" +
+            "Showing " +
+            "<span>" +
+            filterLength +
+            "</span>" +
+            " from " +
+            postingLength +
+            "</div>"
+        );
+      }
+      //function to create checkboxes for filter
+      function handleCheckboxes(_data) {
+        $.each(locations, function (key, value) {
+          var checkbox_label = value;
+          var checkbox_value = value;
+          var checkbox_name = key;
+          $("#filter .filter-options-loc, #accord-loc").append(
+            "<div class='search-option'>" +
+              "<div>" +
+              '<input type="checkbox" name="' +
+              checkbox_name +
+              '" value="' +
+              checkbox_value +
+              '"/>' +
+              "</div>" +
+              '<div class="checkbox-label">' +
+              "<span>" +
+              checkbox_label +
+              "</span>" +
+              "</div>" +
+              "</div>"
+          );
+        });
+
+        $.each(teams, function (key, value) {
+          var checkbox_label = value;
+          var checkbox_value = value;
+          var checkbox_name = "categories[" + value + "]";
+          $("#filter .filter-options-team, #accord-team").append(
+            "<div class='search-option'>" +
+              "<div>" +
+              '<input type="checkbox" name="' +
+              checkbox_name +
+              '" value="' +
+              checkbox_value +
+              '"/>' +
+              "</div>" +
+              '<div class="checkbox-label">' +
+              "<span>" +
+              checkbox_label +
+              "</span>" +
+              "</div>" +
+              "</div>"
+          );
+        });
+
+        $.each(commitments, function (key, value) {
+          var checkbox_label = value;
+          var checkbox_value = value;
+          var checkbox_name = "categories[" + value + "]";
+          $("#filter .filter-options-work-type, #accord-work-type").append(
+            "<div class='search-option'>" +
+              "<div>" +
+              '<input type="checkbox" name="' +
+              checkbox_name +
+              '" value="' +
+              checkbox_value +
+              '"/>' +
+              "</div>" +
+              '<div class="checkbox-label">' +
+              "<span>" +
+              checkbox_label +
+              "</span>" +
+              "</div>" +
+              "</div>"
+          );
+        });
+        $("#location input:checkbox, #accord-loc input:checkbox").on(
+          "click",
+          onCheckboxChange
+        );
+        $("#team input:checkbox, #accord-team input:checkbox").on(
+          "click",
+          onCheckboxChange
+        );
+        $("#work-type input:checkbox, #accord-work-type input:checkbox").on(
+          "click",
+          onCheckboxChange
+        );
+      }
+      //function to update chiptags on filter action
+      function updateTextArea(e, isUnchecked) {
+        if (isUnchecked) {
+          $("div.chip")
+            .filter(function () {
+              return $.trim($(this).text().replace("×", "")) === e.target.value;
+            })
+            .remove();
+        } else {
+          $("#chiptag").show();
+          $(".filter-title").show();
+          allVals.push(e.target.value);
+          if (e.target.parentNode.parentNode.parentNode.parentNode.id != "") {
+            $(
+              `<div data-type="${e.target.parentNode.parentNode.parentNode.parentNode.id}" class="chip"> ` +
+                e.target.value +
+                ' <span class="closebtn" >&times;</span></div>'
+            ).insertAfter("#chiptag");
+            $(this).val(null);
+          } else {
+            $(
+              `<div data-type="${e.target.parentNode.parentNode.parentNode.id}" class="chip"> ` +
+                e.target.value +
+                ' <span class="closebtn" >&times;</span></div>'
+            ).insertAfter("#chiptag");
+            $(this).val(null);
+          }
+        }
+      }
+      //function to perform what should be done after checkbox change
+      function onCheckboxChange(e) {
+        let temp = [];
+        const id = e.target.parentNode.parentNode.id;
+        if (e.target.checked) {
+          updateTextArea(e);
+          updateListingOnCheckbox(id);
+        } else if (e.target.checked === false) {
+          allVals = allVals.filter((val) => val !== e.target.value);
+          updateTextArea(e, true);
+          if (allVals.length === 0) {
+            $("#chiptag").hide();
+            $(".filter-title").hide();
+            createJobs(rawData, searchValue);
+          } else {
+            updateListingOnCheckbox(id);
+          }
+        }
+      }
+      //function to update the job listing in the UI
+      function updateListingOnCheckbox(filterCategory, clear) {
+        const locTags = allVals.filter((val) => locations.includes(val));
+        const teamTags = allVals.filter((val) => teams.includes(val));
+        const commitmentTags = allVals.filter((val) =>
+          commitments.includes(val)
+        );
+        for (i = 0; i < posting.length; i++) {
+          for (j = 0; j < rawData[i].postings.length; j++) {
+            posting[i].postings = clear
+              ? rawData[i].postings
+              : rawData[i].postings.filter((val) => {
+                  if (
+                    teamTags.length > 0 &&
+                    locTags.length > 0 &&
+                    commitmentTags.length > 0
+                  ) {
+                    return (
+                      locTags.indexOf(val.categories.location) !== -1 &&
+                      teamTags.indexOf(val.categories.team) !== -1 &&
+                      commitmentTags.indexOf(cal.categories.commitment) !== -1
+                    );
+                  } else if (teamTags.length > 0 && locTags.length > 0) {
+                    return (
+                      locTags.indexOf(val.categories.location) !== -1 &&
+                      teamTags.indexOf(val.categories.team) !== -1
+                    );
+                  } else if (commitmentTags.length > 0 && locTags.length > 0) {
+                    return (
+                      locTags.indexOf(val.categories.location) !== -1 &&
+                      commitmentTags.indexOf(val.categories.commitment) !== -1
+                    );
+                  } else if (commitmentTags.length > 0 && teamTags.length > 0) {
+                    return (
+                      teamTags.indexOf(val.categories.team) !== -1 &&
+                      commitmentTags.indexOf(val.categories.commitment) !== -1
+                    );
+                  } else if (locTags.length > 0) {
+                    return locTags.indexOf(val.categories.location) !== -1;
+                  } else if (teamTags.length > 0) {
+                    return teamTags.indexOf(val.categories.team) !== -1;
+                  } else
+                    return (
+                      commitmentTags.indexOf(val.categories.commitment) !== -1
+                    );
+                });
+          }
+        }
+        createJobs(posting, searchValue);
+      }
+      //funtion to clear out the filters applied
+      function clearCheckboxes(filterType, clear, text) {
+        if (clear) {
+          $(`div[data-type=${filterType}]`).each(function () {
+            allVals = allVals.filter(
+              (el) => el !== $.trim($(this).text().replace("×", ""))
+            );
+            $(this).remove();
+            $(`div#${filterType} input:checkbox`).removeAttr("checked");
+          });
+        }
+        if (allVals.length === 0) {
+          $("#chiptag").hide();
+          $(".filter-title").hide();
+        }
+        updateListingOnCheckbox(filterType, true);
+        $(`div#${filterType} input:checkbox`).each(function () {
+          if (
+            $.trim($(this).parent().parent().text().replace("×", "")) === text
+          ) {
+            $(this).removeAttr("checked");
+          }
+        });
+      }
+      //this event will be triggered whenever we close any chiptag
+      $(document).on("click", ".closebtn", function (e) {
+        const clearedTag = $.trim($(this).parent().text().replace("×", ""));
+        allVals = allVals.filter((val) => val !== clearedTag);
+        const tagType = $(this).parent().attr("data-type");
+        if (allVals.length > 0) {
+          updateListingOnCheckbox(tagType);
+        } else {
+          $("#chiptag").hide();
+          $(".filter-title").hide();
+          createJobs(rawData, searchValue);
+        }
+        clearCheckboxes(tagType, "", clearedTag);
+        $(this).parent().remove();
+      });
+      //eventlistener for any search input in search area
+      searchEle.addEventListener("keyup", (e) => {
+        searchValue = e.target.value;
+        createJobs(jobData, searchValue);
+      });
+      //to clear out all tags and filters applied
+      Array.from(clearAll).forEach((element) => {
+        element.addEventListener("click", (e) => {
+          allVals = [];
+          $("#chiptag").hide();
+          $(".filter-title").hide();
+          $(".chip").hide();
+          createJobs(rawData);
+          $(`div#filter input:checkbox, div#wrapper input:checkbox`).removeAttr(
+            "checked"
+          );
+        });
+      });
+
+      //Fetching job postings from Lever's postings API
+      $.ajax({
+        dataType: "json",
+        url: url,
+        success: function (data) {
+          jobData = data;
+          rawData = JSON.parse(JSON.stringify(data));
+          createJobs(data, "", true);
+          createFilter(data);
+          handleCheckboxes(data);
+          totalPostings();
+          $("#chiptag").hide();
+          $(".filter-title").hide();
+          $(".collapse").hide();
+        }
+      });
+    </script>
+  </body>
+</html>
